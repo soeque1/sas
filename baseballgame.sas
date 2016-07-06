@@ -16,7 +16,7 @@
 proc fcmp outlib=work.funcs.baseballG;
 		/* TODO 
             : INPUT을 입력숫자, 답 2개의 array or 1개의 data.frame로 처리 */
-		function check_ball(of num:, of ans:) $ 50;
+		function check_ball(num1, num2, num3, ans1, ans2, ans3) $ 50;
 		array ans {*} ans: ;
 		array input_num {*} num: ;
 
