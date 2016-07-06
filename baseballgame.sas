@@ -29,7 +29,7 @@ endsub;
 
 options cmplib=work.funcs;
 
-%MACRO run_baseball(ans);
+%MACRO run_baseball();
 
 		data ans;
 			ans1=%RandBetween(1, 9);
@@ -88,4 +88,4 @@ options cmplib=work.funcs;
 
 %MEND;
 
-%run_baseball(ans);
+%run_baseball();
