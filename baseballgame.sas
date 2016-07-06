@@ -39,7 +39,7 @@ proc fcmp outlib=work.funcs.baseballG;
 
 		/* TODO 
             : OUTPUT을 strikes, balls 2개의 숫자로 반환 or data.frame으로 반환 */
-		res=put(s_cnt, 1.)||'strikes '|| put(b_cnt, 1.)||'balls';
+		res=put(s_cnt, 1.)||' strikes '|| put(b_cnt, 1.)||' balls';
 		return (res);
 endsub;
 
@@ -98,11 +98,11 @@ options cmplib=work.funcs;
 				%display info;
 
 				set ans;
-				t_cnt_p=&t_cnt||'th Trials';
+				t_cnt_p=&t_cnt||'th Trial';
 				put t_cnt_p;
 				/* TODO
 				    : 입력 변수 n자리 숫자로 일반화 필요
-				      (입력 숫자와 답 2개의 array 처리 or data.frame 처리 필요) */
+				      (입력 숫자와 답 2개의 array 처리 or data.frame 처리 필요, of ans: 이용) */
 				res=check_ball(&a, &b, &c, ans1, ans2, ans3);
 				/*  TODO
 				     :a check_ball의 반환값 res(스트라이크 볼 갯수)를 %display에 print 필요 */
