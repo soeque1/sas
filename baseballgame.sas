@@ -1,16 +1,29 @@
+*********************************
+* RandBetween                           *
+* 1~9까지 한자리 숫자 랜덤 생성 *
+* @parms min, max 			        *
+*********************************;
 %macro RandBetween(min, max);
 	(&min + floor((1+&max-&min)*rand("uniform")));
 %mend;
 
+**************************************************************
+* check_ball                                                                           *
+* 입력 숫자와 답 체크하여 스트라이크 및 볼 출력                      *
+* @parms num1-num3, ans1-ans3 			                                *
+* TODO                                                                                  *
+***************************************************************;
 proc fcmp outlib=work.funcs.baseballG;
+		/* TODO 
+            : INPUT을 입력숫자, 답 2개의 array or 1개의 data.frame로 처리 */
 		function check_ball(num1, num2, num3, ans1, ans2, ans3) $ 50;
 		array ans {3} ans1 ans2 ans3;
 		array input_num {3} num1 num2 num3;
 
-		/* strike */
+		/* strike 카운트 */
 		s_cnt=0;
 
-		/* ball   */
+		/* ball  카운트 */
 		b_cnt=0;
 
 		do i=1 to dim(ans);
@@ -23,14 +36,28 @@ proc fcmp outlib=work.funcs.baseballG;
 					b_cnt=b_cnt + 1;
 			end;
 		end;
+
+		/* TODO 
+            : OUTPUT을 strikes, balls 2개의 숫자로 반환 or data.frame으로 반환 */
 		res=put(s_cnt, 1.)||'strikes '|| put(b_cnt, 1.)||'balls';
 		return (res);
 endsub;
 
+/* funcs 메모리상 등록 */
 options cmplib=work.funcs;
 
+
+**************************************************************
+* run_baseball                                                                        *
+* 입력 숫자와 답 체크하여 스트라이크 및 볼 출력                      *
+* @parms num1-num3, ans1-ans3 			                                *
+* TODO                                                                                  *
+***************************************************************;
 %MACRO run_baseball();
 
+        /* 답 생성(3자리) */
+        /* TODO 
+            : N자리 중복 없는 연속숫자 생성으로 일반화 필요 */
 		data ans;
 			ans1=%RandBetween(1, 9);
 			ans2=%RandBetween(1, 9);
@@ -46,10 +73,12 @@ options cmplib=work.funcs;
 			end;
 		run;
 
-		%LET s_cnt = 0;
+		/* 스트라이크 숫자 */
+		%LET s_cnt = 0; 
+
+		/* 시도 횟수 */
 		%LET t_cnt = 0;
 
-		/*%DO t_cnt=1 %TO 1;*/
 		%DO %WHILE (&s_cnt < 3 and &t_cnt < 10); /* 최대 10번 시도 */
 
 			%let t_cnt = %eval(&t_cnt+1);
@@ -57,12 +86,11 @@ options cmplib=work.funcs;
 			data res;
 				
 				%window info  color = white
-
 				/* dimensions of window */
 				icolumn = 55 irow = 10
 				columns = 50 rows = 30 
 
-				#5 @5 'Please Enter Numbers:'
+				#5 @5 'Please Enter Number:'
 				#5 @26 a 1 attr = underline
 				#5 @28 b 1 attr = underline
 				#5 @30 c 1 attr = underline;	
@@ -70,9 +98,14 @@ options cmplib=work.funcs;
 				%display info;
 
 				set ans;
-				t_cnt_p=&t_cnt||'th Trial';
+				t_cnt_p=&t_cnt||'th Trials';
 				put t_cnt_p;
+				/* TODO
+				    : 입력 변수 n자리 숫자로 일반화 필요
+				      (입력 숫자와 답 2개의 array 처리 or data.frame 처리 필요) */
 				res=check_ball(&a, &b, &c, ans1, ans2, ans3);
+				/*  TODO
+				     :a check_ball의 반환값 res(스트라이크 볼 갯수)를 %display에 print 필요 */
 				put res;
 				call symput('res',trim(left(res)));
 			run; 
