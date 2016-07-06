@@ -16,9 +16,9 @@
 proc fcmp outlib=work.funcs.baseballG;
 		/* TODO 
             : INPUT을 입력숫자, 답 2개의 array or 1개의 data.frame로 처리 */
-		function check_ball(num1, num2, num3, ans1, ans2, ans3) $ 50;
-		array ans {3} ans1 ans2 ans3;
-		array input_num {3} num1 num2 num3;
+		function check_ball(of num:, of ans:) $ 50;
+		array ans {*} ans: ;
+		array input_num {*} num: ;
 
 		/* strike 카운트 */
 		s_cnt=0;
@@ -91,9 +91,9 @@ options cmplib=work.funcs;
 				columns = 50 rows = 30 
 
 				#5 @5 'Please Enter Number:'
-				#5 @26 a 1 attr = underline
-				#5 @28 b 1 attr = underline
-				#5 @30 c 1 attr = underline;	
+				#5 @26 num1 1 attr = underline
+				#5 @28 num2 1 attr = underline
+				#5 @30 num3 1 attr = underline;	
 				
 				%display info;
 
@@ -103,7 +103,7 @@ options cmplib=work.funcs;
 				/* TODO
 				    : 입력 변수 n자리 숫자로 일반화 필요
 				      (입력 숫자와 답 2개의 array 처리 or data.frame 처리 필요, of ans: 이용) */
-				res=check_ball(&a, &b, &c, ans1, ans2, ans3);
+				res=check_ball(&num1, &num2, &num3, of ans:);
 				/*  TODO
 				     :a check_ball의 반환값 res(스트라이크 볼 갯수)를 %display에 print 필요 */
 				put res;
