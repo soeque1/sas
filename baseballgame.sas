@@ -56,7 +56,7 @@ options cmplib=work.funcs;
 
 			data res;
 				
-				%window info  color = green
+				%window info  color = white
 
 				/* dimensions of window */
 				icolumn = 55 irow = 10
